@@ -1,0 +1,4 @@
+funnyimg-test
+=============
+
+funnyimg-assigment
