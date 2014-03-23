@@ -24,6 +24,8 @@ app.url_map.strict_slashes = False
 
 db = SQLAlchemy(app)
 
+from fimg.api import api
 
 #import all models
 from fimg.models import *
+from fimg.views import *
