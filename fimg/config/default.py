@@ -12,7 +12,9 @@ DATETIME_FORMAT = DATE_FORMAT+" "+TIME_FORMAT
 
 TUMBLR = {
     'key':'gvJPyLg57Wgu1ivg0kP2tc2KBk9o57qOCQJgwcFJVbrXkXosv8',
-    'secret':'b4WpRVEWw1aFoPrfJ7Amp77m7q4tv8p575JHl2RnInsaiZPIy9'
+    'secret':'b4WpRVEWw1aFoPrfJ7Amp77m7q4tv8p575JHl2RnInsaiZPIy9',
+    'token':'xru2BBAvB2tKYcUg7yN4TFTo7gnxpmvXm6IJ3BS136PuJrtHzR',
+    'token_secret':'tEkBPu5Hy1dYVgdbHLmZvURe4w97haGF9nYJTKGR75kDlFtlwI'
 }
 
 INSTAGRAM = {}
