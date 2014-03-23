@@ -1,0 +1,13 @@
+
+.pic-holdr{
+    margin:3px;
+}
+.pic-holdr li{
+    list-style:none;
+
+}
+.pic-descr{
+    padding-top:10px;
+    font-size:10px;
+    line-height:11px;
+}

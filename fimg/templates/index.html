@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
+    <title>Funnyimg | Welcome</title>
     <link rel="stylesheet" href="/static/css/foundation.css" />
     <link rel="stylesheet" href="/static/css/index.css" />
     <script src="/static/js/vendor/modernizr.js"></script>
@@ -16,15 +16,19 @@
   <div ng-controller='imgController'>
     <div class="row">
       <div class="large-12 columns">
-        <h1>Funnies pics ever</h1>
+        <h1>Funniest pics ever</h1>
       </div>
     </div>
     
     <div class="row">
+      
       <div ng-repeat="photo in photos"
-        class="large-12 columns">
-        <img src="{{photo.img_url}}">,{{photo.description}}
+        class="large-4 columns ">
+      <div class="panel pic-holdr">
+        <img class="th" src="{{photo.img_url}}">
+        <p class="pic-descr">{{photo.description}}</p>
       </div>
+     </div>
     </div>
   </div>
 
