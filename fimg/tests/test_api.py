@@ -7,7 +7,8 @@ from fimg import db
 from fimg import app
 
 from .data.tumblr_example_response import tumblr_response
-from ..api import TumblrLoader
+from .data.instagram_example_response import instagram_response
+from ..api import TumblrLoader, InstagramLoader
 from ..models import FunnyImage
 
 
@@ -16,8 +17,16 @@ tumblrr = TumblrLoader()
 
 def faketumblr(self):
     self.client = mock.Mock()
+    self.vendor = "tumblr"
     self.client.tagged = lambda *args,**kwargs: tumblr_response
+
 TumblrLoader.__init__ = faketumblr
+
+def fakeinstagr(self):
+    self.client = mock.Mock()
+    self.vendor = "instagram"
+    self.client.tag_recent_media = lambda *args,**kwargs: instagram_response
+InstagramLoader.__init__ = fakeinstagr
 
 
 def setup():
@@ -35,7 +44,7 @@ def test_api_photos_list():
     resp = json.loads(rv.data)
     eq_(len(resp),16)
     resp_item = resp[0]
-    photo = FunnyImage.query.order_by('posted_at desc').all()[0]
+    photo = FunnyImage.query.all()[0]
     eq_(photo.img_url,
             resp_item['img_url'])
     eq_(photo.description,

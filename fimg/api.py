@@ -4,7 +4,7 @@ from flask.ext.restful import reqparse, fields, marshal_with
 from fimg import app
 
 from .models import FunnyImage
-from .datasources import TumblrLoader
+from .datasources import TumblrLoader, InstagramLoader
  
 api = restful.Api(app)
 
@@ -15,6 +15,7 @@ class FunnyImgResource(restful.Resource):
         self.parser.add_argument('limit', type=int)
         self.parser.add_argument('offset', type=int)
         self.tl = TumblrLoader()
+        self.il = InstagramLoader()
 
     mfields = {
             'img_url':fields.Raw,
@@ -30,9 +31,11 @@ class FunnyImgResource(restful.Resource):
 
         offset = reqargs.get('offset')
         if offset == FunnyImage.query.count():
-            self.tl.load_older_entries('fun')
+            tag = 'lol'
+            self.tl.load_older_entries(tag)
+            self.il.load_older_entries(tag)
 
-        photos = FunnyImage.query.order_by('posted_at desc').limit(limit).offset(offset).all()
+        photos = FunnyImage.query.limit(limit).offset(offset).all()
         return photos
 
 api.add_resource(FunnyImgResource, '/photostream/')

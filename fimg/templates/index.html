@@ -14,15 +14,37 @@
   <body>
     
   <div scroll ng-controller="imgController" >
-    <div class="row">
-      <div class="large-12 columns">
-        <h1>Funniest pics ever</h1>
-      </div>
-    </div>
+  <div class="contain-to-grid sticky" data-options="sticky_on: large">
+    <nav class="top-bar" data-topbar>
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href=#>Funniest pics ever</a></h1>
+    </li>
+  </ul>
+  <section class="top-bar-section">
+    <ul class="right">
+      <li class="has-form">
+        <div class="row collapse">
+          <div class="large-8 small-9 columns">
+            <input id="filterinput" type="text" placeholder="Filter stuff" ng-model="filterItems">
+          </div>
+          <div class="large-4 small-3 columns">
+            <a class="alert button expand" href="#">Search</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+
+
+
+    </nav> 
+  </div>
     
     <div class="row">
       
-      <div ng-repeat="photo in photos"
+      <div ng-repeat="photo in photos | filter:filterItems"
         class="large-4 columns ">
       <div class="panel pic-holdr">
         <img class="th" ng-src="{{photo.img_url}}">
@@ -31,6 +53,7 @@
      </div>
     </div>
   </div>
+  <div id="loader" class="panel"><center>loading ...</center></div>
 
     <script src="/static/js/vendor/jquery.js"></script>
     <script src="/static/js/foundation.min.js"></script>

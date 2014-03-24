@@ -8,11 +8,12 @@ from fimg import app
 
 from .data.tumblr_example_response import tumblr_response
 from .data.instagram_example_response import instagram_response
-from ..datasources import TumblrLoader, parse_instagram
+from ..datasources import TumblrLoader, InstagramLoader
 from ..models import FunnyImage
 
 test_client = app.test_client()
 tumblrr = TumblrLoader()
+instgrr = InstagramLoader()
 
 def setup():
     db.create_all()
@@ -40,7 +41,7 @@ def test_from_tumblr_response():
 def test_from_instagram_response():
     """docstring for test_from_instagram_response"""
     eq_(FunnyImage.query.count(),0)
-    parse_instagram(instagram_response)
+    instgrr.parse_response(instagram_response)
     eq_(FunnyImage.query.count(),10)
     photo = FunnyImage.query.all()[0]
     res_item = instagram_response[0][0]
