@@ -2,15 +2,16 @@ var fimgApp = angular.module('fimgApp', []);
 
 fimgApp.controller('imgController', function($scope, $http) {
     $scope.photos = [];
+    $scope.filteredPhotos = [];
     $scope.loadingMore = false;
 
     $scope.loadMore = function(){
-    $scope.loadingMore = true;
-    var params = {
-      offset : $scope.photos.length,
-      limit : 20,
-      tag: $scope.filterItems
-    }
+      $scope.loadingMore = true;
+      var params = {
+        offset : $scope.filteredPhotos.length,
+        limit : 20,
+        tag: $scope.filterItems
+      }
 
       $http.get('/photostream/',{'params':params}).success(function(data) {
           $scope.photos=$scope.photos.concat(data);
@@ -18,6 +19,12 @@ fimgApp.controller('imgController', function($scope, $http) {
       });
     }
     $scope.loadMore();
+    $scope.$watch('filterItems', function(filterItems){
+      if (!$scope.loadingMore && filterItems.length>2){
+          $scope.loadMore();
+          console.log('moar');
+      }
+    });
 });
 
 fimgApp.directive("scroll", function ($window) {

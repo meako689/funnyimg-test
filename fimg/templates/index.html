@@ -26,10 +26,10 @@
       <li class="has-form">
         <div class="row collapse">
           <div class="large-8 small-9 columns">
-            <input id="filterinput" type="text" placeholder="Filter stuff" ng-model="$parent.filterItems">
+            <input id="filterinput" type="text" placeholder="Filter by tag" ng-model="filterItems">
           </div>
           <div class="large-4 small-3 columns">
-            <a class="alert button expand" href="#">Search</a>
+            <button class="alert button expand" ng-click="loadMore()">Search</button>
           </div>
         </div>
       </li>
@@ -44,7 +44,7 @@
     
     <div class="row">
       
-      <div ng-repeat="photo in photos | filter:$parent.filterItems"
+      <div ng-repeat="photo in filteredPhotos = (photos | filter:filterItems)"
         class="large-4 columns ">
       <div class="panel pic-holdr">
         <img class="th" ng-src="{{photo.img_url}}">

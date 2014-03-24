@@ -20,7 +20,7 @@ class ApiLoader(object):
             timestamp = int(time.mktime(oldestentry.posted_at.timetuple()))
         else:
             timestamp = int(time.time())
-        self.load_tagged(tag,timestamp)
+        return self.load_tagged(tag,timestamp)
 
 class InstagramLoader(ApiLoader):
     """Wrapper on instagram api"""
@@ -31,6 +31,7 @@ class InstagramLoader(ApiLoader):
     def parse_response(self, response, tag=None):
         """docstring for parse_instagram"""
         photos = response[0]
+        result = []
         for item in photos:
             photo = FunnyImage(
                     img_url=item.get_standard_resolution_url(),
@@ -42,11 +43,13 @@ class InstagramLoader(ApiLoader):
                     tag=tag,
             )
             db.session.add(photo)
+            result.append(photo)
         db.session.commit()
+        return result
 
     def load_tagged(self, tag, timestamp=None):
         result = self.client.tag_recent_media(20, timestamp, tag)
-        self.parse_response(result,tag)
+        return self.parse_response(result,tag)
 
 
 
@@ -63,6 +66,7 @@ class TumblrLoader(ApiLoader):
 
     def parse_response(self, response, tag=None):
         """Create db models, based on response from api"""
+        result = []
         photos = filter(lambda i:i['type'] == 'photo',response)
         for item in photos:
             photo = FunnyImage(
@@ -75,9 +79,11 @@ class TumblrLoader(ApiLoader):
                     tag=tag
             )
             db.session.add(photo)
+            result.append(photo)
         db.session.commit()
+        return result
 
     def load_tagged(self, tag, timestamp=None):
         """load tagged items into db"""
         response = self.client.tagged(tag,filter='text',before=timestamp)
-        self.parse_response(response,tag)
+        return self.parse_response(response,tag)

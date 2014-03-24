@@ -21,7 +21,8 @@ class FunnyImgResource(restful.Resource):
     mfields = {
             'img_url':fields.Raw,
             'description':fields.Raw,
-            'vendor_url':fields.Raw
+            'vendor_url':fields.Raw,
+            'tag':fields.Raw
     }
             
     @marshal_with(mfields)
@@ -34,9 +35,8 @@ class FunnyImgResource(restful.Resource):
         if not tag: tag = 'lol' #lol show funny pics by default
         photos = FunnyImage.query.filter_by(tag=tag).limit(limit).offset(offset)
         if photos.count() == 0:
-            self.tl.load_older_entries(tag)
-            self.il.load_older_entries(tag)
-
+            tl=self.tl.load_older_entries(tag)
+            il=self.il.load_older_entries(tag)
         return photos.all()
 
 api.add_resource(FunnyImgResource, '/photostream/')
