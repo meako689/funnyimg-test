@@ -10,10 +10,10 @@
     <script src="/static/js/angular.min.js"></script>
     <script src="/static/js/index.js"></script>
   </head>
-  <body>
   {% raw %}
+  <body>
     
-  <div ng-controller='imgController'>
+  <div scroll ng-controller="imgController" >
     <div class="row">
       <div class="large-12 columns">
         <h1>Funniest pics ever</h1>
@@ -25,18 +25,18 @@
       <div ng-repeat="photo in photos"
         class="large-4 columns ">
       <div class="panel pic-holdr">
-        <img class="th" src="{{photo.img_url}}">
+        <img class="th" ng-src="{{photo.img_url}}">
         <p class="pic-descr">{{photo.description}}</p>
       </div>
      </div>
     </div>
   </div>
 
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="/static/js/vendor/jquery.js"></script>
+    <script src="/static/js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
-    {% endraw %}
   </body>
+    {% endraw %}
 </html>

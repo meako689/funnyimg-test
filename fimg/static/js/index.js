@@ -1,7 +1,31 @@
 var fimgApp = angular.module('fimgApp', []);
 
-fimgApp.controller('imgController', ['$scope', '$http', function($scope, $http) {
-    $http.get('/photostream/').success(function(data) {
-        $scope.photos = data;
-    });
-}]);
+fimgApp.controller('imgController', function($scope, $http) {
+    $scope.photos = [];
+    $scope.loadingMore = false;
+
+    $scope.loadMore = function(){
+    $scope.loadingMore = true;
+    var params = {
+      offset : $scope.photos.length,
+      limit : 20,
+    }
+
+      $http.get('/photostream/',{'params':params}).success(function(data) {
+          $scope.photos=$scope.photos.concat(data);
+          $scope.loadingMore = false;
+      });
+    }
+    $scope.loadMore();
+});
+
+fimgApp.directive("scroll", function ($window) {
+    return function(scope, element, attrs) {
+        angular.element($window).bind("scroll", function() {
+          if (this.scrollY+this.innerHeight >= this.document.body.scrollHeight-100 && !scope.loadingMore) {
+            scope.loadingMore = true;
+            scope.loadMore();
+          }
+        });
+    };
+});
