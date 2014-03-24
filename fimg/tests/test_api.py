@@ -6,7 +6,7 @@ from nose.tools import *
 from fimg import db
 from fimg import app
 
-from .data.tumblr_example_response import response
+from .data.tumblr_example_response import tumblr_response
 from ..api import TumblrLoader
 from ..models import FunnyImage
 
@@ -16,7 +16,7 @@ tumblrr = TumblrLoader()
 
 def faketumblr(self):
     self.client = mock.Mock()
-    self.client.tagged = lambda *args,**kwargs: response
+    self.client.tagged = lambda *args,**kwargs: tumblr_response
 TumblrLoader.__init__ = faketumblr
 
 
@@ -29,13 +29,13 @@ def teardown():
 def test_api_photos_list():
     """docstring for test_api_photos_list"""
     eq_(FunnyImage.query.count(),0)
-    tumblrr.parse_response(response)
+    tumblrr.parse_response(tumblr_response)
     rv = test_client.get('/photostream/')
     eq_(rv.status_code, 200)
     resp = json.loads(rv.data)
     eq_(len(resp),16)
     resp_item = resp[0]
-    photo = FunnyImage.query.get(1)
+    photo = FunnyImage.query.order_by('posted_at desc').all()[0]
     eq_(photo.img_url,
             resp_item['img_url'])
     eq_(photo.description,

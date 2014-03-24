@@ -1,4 +1,4 @@
-response = [{u'blog_name': u'oedipus-sex',
+tumblr_response = [{u'blog_name': u'oedipus-sex',
   u'body': u'imagine your current friend group but dwayne the rock johnson is an unquestioned part of it',
   u'can_reply': False,
   u'date': u'2014-03-21 03:07:11 GMT',

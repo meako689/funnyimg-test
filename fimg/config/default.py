@@ -17,4 +17,8 @@ TUMBLR = {
     'token_secret':'tEkBPu5Hy1dYVgdbHLmZvURe4w97haGF9nYJTKGR75kDlFtlwI'
 }
 
-INSTAGRAM = {}
+INSTAGRAM = {
+    'token':'1204415954.189ac5f.b8aa6ee417da4bb29bd8d1611b9dcbe7',
+    'id':'189ac5fae0684e72a2f68d8834d76a15',
+    'secret':'ed718569ad364b86a8f72b65c50cee97'
+}

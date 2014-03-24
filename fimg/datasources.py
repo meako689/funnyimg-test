@@ -7,6 +7,23 @@ from fimg import db
 
 from .models import FunnyImage
  
+def parse_instagram(response):
+    """docstring for parse_instagram"""
+    photos = response[0]
+    for item in photos:
+        photo = FunnyImage(
+                img_url=item.images['standard_resolution'].url,
+                description=item.caption.text,
+                vendor = 'instagram',
+                vendor_id=item.id,
+                vendor_url = item.link,
+                posted_at = item.created_time,
+        )
+        db.session.add(photo)
+    db.session.commit()
+
+
+
 class TumblrLoader(object):
     """Wrapper on tumblr's api wrapper"""
     def __init__(self):

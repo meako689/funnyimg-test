@@ -8,7 +8,7 @@ class FunnyImage(db.Model):
     img_url = db.Column(db.String(255))
     vendor = db.Column(db.String(32))
     vendor_url = db.Column(db.String(255))
-    vendor_id = db.Column(db.Integer)
+    vendor_id = db.Column(db.String(32))
     posted_at = db.Column(db.DateTime)
 
     def __repr__(self):

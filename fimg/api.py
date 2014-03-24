@@ -25,13 +25,14 @@ class FunnyImgResource(restful.Resource):
     @marshal_with(mfields)
     def get(self, **kwargs):
         reqargs = self.parser.parse_args()
-        limit = reqargs.get('limit', 20)
+        limit = reqargs.get('limit')
+        if not limit: limit = 20
+
         offset = reqargs.get('offset')
         if offset == FunnyImage.query.count():
-            print "loaded"
             self.tl.load_older_entries('fun')
 
-        photos = FunnyImage.query.limit(limit).offset(offset).all()
+        photos = FunnyImage.query.order_by('posted_at desc').limit(limit).offset(offset).all()
         return photos
 
 api.add_resource(FunnyImgResource, '/photostream/')
