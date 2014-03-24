@@ -9,6 +9,7 @@ fimgApp.controller('imgController', function($scope, $http) {
     var params = {
       offset : $scope.photos.length,
       limit : 20,
+      tag: $scope.filterItems
     }
 
       $http.get('/photostream/',{'params':params}).success(function(data) {

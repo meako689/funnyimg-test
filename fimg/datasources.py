@@ -28,7 +28,7 @@ class InstagramLoader(ApiLoader):
         self.client =  InstagramAPI(access_token=app.config['INSTAGRAM']['token'])
         self.vendor = "instagram"
 
-    def parse_response(self, response):
+    def parse_response(self, response, tag=None):
         """docstring for parse_instagram"""
         photos = response[0]
         for item in photos:
@@ -39,13 +39,14 @@ class InstagramLoader(ApiLoader):
                     vendor_id=item.id,
                     vendor_url = item.link,
                     posted_at = item.created_time,
+                    tag=tag,
             )
             db.session.add(photo)
         db.session.commit()
 
     def load_tagged(self, tag, timestamp=None):
         result = self.client.tag_recent_media(20, timestamp, tag)
-        self.parse_response(result)
+        self.parse_response(result,tag)
 
 
 
@@ -60,7 +61,7 @@ class TumblrLoader(ApiLoader):
                 app.config['TUMBLR']['token_secret'],
         )
 
-    def parse_response(self, response):
+    def parse_response(self, response, tag=None):
         """Create db models, based on response from api"""
         photos = filter(lambda i:i['type'] == 'photo',response)
         for item in photos:
@@ -70,7 +71,8 @@ class TumblrLoader(ApiLoader):
                     vendor = self.vendor,
                     vendor_id=item['id'],
                     vendor_url = item['post_url'],
-                    posted_at = datetime.datetime.fromtimestamp(item['timestamp'])
+                    posted_at = datetime.datetime.fromtimestamp(item['timestamp']),
+                    tag=tag
             )
             db.session.add(photo)
         db.session.commit()
@@ -78,4 +80,4 @@ class TumblrLoader(ApiLoader):
     def load_tagged(self, tag, timestamp=None):
         """load tagged items into db"""
         response = self.client.tagged(tag,filter='text',before=timestamp)
-        self.parse_response(response)
+        self.parse_response(response,tag)

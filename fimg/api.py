@@ -14,6 +14,7 @@ class FunnyImgResource(restful.Resource):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('limit', type=int)
         self.parser.add_argument('offset', type=int)
+        self.parser.add_argument('tag', type=str)
         self.tl = TumblrLoader()
         self.il = InstagramLoader()
 
@@ -28,14 +29,14 @@ class FunnyImgResource(restful.Resource):
         reqargs = self.parser.parse_args()
         limit = reqargs.get('limit')
         if not limit: limit = 20
-
         offset = reqargs.get('offset')
-        if offset == FunnyImage.query.count():
-            tag = 'lol'
+        tag = reqargs.get('tag')
+        if not tag: tag = 'lol' #lol show funny pics by default
+        photos = FunnyImage.query.filter_by(tag=tag).limit(limit).offset(offset)
+        if photos.count() == 0:
             self.tl.load_older_entries(tag)
             self.il.load_older_entries(tag)
 
-        photos = FunnyImage.query.limit(limit).offset(offset).all()
-        return photos
+        return photos.all()
 
 api.add_resource(FunnyImgResource, '/photostream/')

@@ -10,6 +10,7 @@ class FunnyImage(db.Model):
     vendor_url = db.Column(db.String(255))
     vendor_id = db.Column(db.String(32))
     posted_at = db.Column(db.DateTime)
+    tag = db.Column(db.String(32))
 
     def __repr__(self):
        return '<Funnyimg %i>' % self.id
