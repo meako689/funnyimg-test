@@ -7,7 +7,6 @@ from .models import FunnyImage
 from .datasources import TumblrLoader
  
 api = restful.Api(app)
-tl = TumblrLoader()
 
 class FunnyImgResource(restful.Resource):
     def __init__(self):
@@ -15,6 +14,7 @@ class FunnyImgResource(restful.Resource):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('limit', type=int)
         self.parser.add_argument('offset', type=int)
+        self.tl = TumblrLoader()
 
     mfields = {
             'img_url':fields.Raw,
@@ -29,7 +29,7 @@ class FunnyImgResource(restful.Resource):
         offset = reqargs.get('offset')
         if offset == FunnyImage.query.count():
             print "loaded"
-            tl.load_older_entries('fun')
+            self.tl.load_older_entries('fun')
 
         photos = FunnyImage.query.limit(limit).offset(offset).all()
         return photos

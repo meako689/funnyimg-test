@@ -8,6 +8,7 @@ from fimg import db
 from .models import FunnyImage
  
 class TumblrLoader(object):
+    """Wrapper on tumblr's api wrapper"""
     def __init__(self):
         self.client = pytumblr.TumblrRestClient(
                 app.config['TUMBLR']['key'],
@@ -38,10 +39,10 @@ class TumblrLoader(object):
 
     def load_older_entries(self,tag):
         """load more entries that we have in db"""
-        oldestentry = FunnyImage.query.order_by(FunnyImage.posted_at.asc())[0]
-        timestamp = int(time.mktime(oldestentry.posted_at.timetuple()))
-        print timestamp
+        if FunnyImage.query.count():
+            oldestentry = FunnyImage.query.order_by(FunnyImage.posted_at.asc())[0]
+            timestamp = int(time.mktime(oldestentry.posted_at.timetuple()))
+        else:
+            timestamp = int(time.time())
         self.load_tagged(tag,timestamp) 
-
-
 
