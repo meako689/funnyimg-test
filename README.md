@@ -15,7 +15,7 @@ pip install requirements
 python manage.py syncdb
 python manage.py runserver
 ```
-set proper values in config.local (instagram and tumbl auth)
+set proper values in config.local (instagram and tumblr auth)
 go to http://127.0.0.1:5000 and enjoy!
 
 Tests:
