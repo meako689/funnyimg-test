@@ -1,26 +1,31 @@
-funnyimg-test
+Funnyimg-test
 =============
 
 Simple web-app that shows you funny pictures from instagram and tumblr
+
+View live:http://funnyimg.herokuapp.com/
 
 written with flask and angular-js
 
 Fun, unreliable very inefficent and irrational.
 
-To set-up:
+##Set-up:
 
-get yourself some virtualenv:
+get yourself some virtualenv or vagrant env:
 ```
-pip install requirements
+pip install -r requirements.txt
 python manage.py syncdb
+```
+set proper values in config/local.py or ENV (instagram and tumblr auth)
+```
 python manage.py runserver
 ```
-set proper values in config.local (instagram and tumblr auth)
+
 go to http://127.0.0.1:5000 and enjoy!
 
-Tests:
+##Tests:
 ```
 nosetests
 ```
 
-
+##
