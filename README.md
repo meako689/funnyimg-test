@@ -11,7 +11,7 @@ Fun, unreliable very inefficent and irrational.
 
 ##Set-up:
 
-get yourself some virtualenv or vagrant env:
+get yourself some virtualenv or [vagrant env](https://github.com/meako689/vagrant-puppet-django):
 ```
 pip install -r requirements.txt
 python manage.py syncdb
