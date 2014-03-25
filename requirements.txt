@@ -9,6 +9,7 @@ SQLAlchemy==0.9.3
 Werkzeug==0.9.4
 aniso8601==0.82
 argparse==1.2.1
+gunicorn==18.0
 httplib2==0.8
 ipdb==0.8
 ipython==1.2.1
