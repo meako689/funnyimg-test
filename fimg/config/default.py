@@ -3,7 +3,7 @@ from os.path import dirname, normpath, join
 CONFIG_DIR = normpath(dirname(__file__))
 PROJ_ROOT = dirname(dirname(CONFIG_DIR))
 
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 SQLALCHEMY_ECHO = False
 DEBUG = True
 
@@ -28,3 +28,5 @@ try:
     from .local import *
 except ImportError:
     print "Could not load local settings"
+
+print SQLALCHEMY_DATABASE_URI

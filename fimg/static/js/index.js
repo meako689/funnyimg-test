@@ -1,16 +1,17 @@
 var fimgApp = angular.module('fimgApp', []);
 
-fimgApp.controller('imgController', function($scope, $http) {
+fimgApp.controller('imgController', function($scope, $http, $timeout) {
     $scope.photos = [];
     $scope.filteredPhotos = [];
     $scope.loadingMore = false;
+    $scope.filterText = '';
 
     $scope.loadMore = function(){
       $scope.loadingMore = true;
       var params = {
         offset : $scope.filteredPhotos.length,
         limit : 20,
-        tag: $scope.filterItems
+        tag: $scope.filterText
       }
 
       $http.get('/photostream/',{'params':params}).success(function(data) {
@@ -18,21 +19,26 @@ fimgApp.controller('imgController', function($scope, $http) {
           $scope.loadingMore = false;
       });
     }
-    $scope.loadMore();
-    $scope.$watch('filterItems', function(filterItems){
-      if (!$scope.loadingMore && filterItems.length>2){
+
+    var tempFilterText = '',
+        filterTextTimeout;
+    $scope.$watch('searchText', function(val){
+      if (filterTextTimeout) $timeout.cancel(filterTextTimeout);
+      tempFilterText = val;
+      filterTextTimeout = $timeout(function() {
+          $scope.filterText = tempFilterText;
           $scope.loadMore();
-          console.log('moar');
-      }
+      }, 450); // delay 
+
     });
 });
 
 fimgApp.directive("scroll", function ($window) {
+    //endless scrolling
     return function(scope, element, attrs) {
         angular.element($window).bind("scroll", function() {
-          if (this.scrollY+this.innerHeight >= this.document.body.scrollHeight-100 && !scope.loadingMore) {
-            scope.loadingMore = true;
-            scope.loadMore();
+          if (this.scrollY+this.innerHeight >= this.document.body.scrollHeight-100) {
+            if (!scope.loadingMore) scope.loadMore();
           }
         });
     };
